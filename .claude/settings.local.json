@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:help.gtowizard.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:wasm-postflop.pages.dev)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd comprehensive project specification for GTO Poker Trainer\n\n- Detailed feature requirements based on GTO Wizard research\n- Technical architecture (React + Node.js + TypeScript)\n- Database schema design for GTO solutions\n- Implementation phases (8-week timeline)\n- Open-source GTO data strategy (TexasSolver)\n- UI mockups for trainer and review screens\n- File structure and component breakdown\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(node --version:*)",
+      "Bash(npm --version:*)",
+      "Bash(git --version:*)",
+      "Bash(mongod:*)",
+      "Bash(git commit:*)",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
