@@ -3,11 +3,21 @@
  *
  * This is the root component of our poker training application.
  * We're using Material UI (MUI) for professional-looking components.
+ *
+ * Current features:
+ * - Poker table display with cards
+ * - Action buttons for player decisions
+ * - Sample hand to demonstrate UI
  */
 
+import { useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Box, Container, Typography, Paper } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import { PokerTable } from './components/trainer/PokerTable';
+import { ActionButtons } from './components/trainer/ActionButtons';
+import type { Player, ActionType } from './types/poker';
+import { parseCard } from './types/poker';
 
 // Create a dark theme similar to GTO Wizard
 const darkTheme = createTheme({
@@ -27,38 +37,80 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  // Demo game state (we'll make this dynamic later)
+  // This represents a flop situation: BTN vs CO, flop is A♥ K♦ 7♠
+  const [pot] = useState(7.5); // Pot size in big blinds
+  const [board] = useState([
+    parseCard('Ah'), // Ace of hearts
+    parseCard('Kd'), // King of diamonds
+    parseCard('7s'), // 7 of spades
+  ]);
+
+  // Players in the hand
+  const [players] = useState<Player[]>([
+    {
+      position: 'CO',
+      stack: 100,
+      isHero: false, // Villain
+    },
+    {
+      position: 'BTN',
+      stack: 97.5,
+      cards: [parseCard('As'), parseCard('Qs')], // Hero has A♠ Q♠
+      isHero: true,
+    },
+  ]);
+
+  // Handle player actions (we'll implement full logic later)
+  const handleAction = (action: ActionType, amount?: number) => {
+    console.log(`Player action: ${action}${amount ? ` ${amount}bb` : ''}`);
+    // TODO: Process action, update game state, get GTO feedback
+    alert(`You chose: ${action}${amount ? ` (${amount}bb or ${Math.round(amount * 100)}% pot)` : ''}\n\nGTO feedback will be shown here!`);
+  };
+
   return (
-    // ThemeProvider applies our dark theme to all Material UI components
     <ThemeProvider theme={darkTheme}>
-      {/* CssBaseline normalizes styles across browsers */}
       <CssBaseline />
 
-      {/* Main container with centered content */}
       <Container maxWidth="lg">
-        <Box sx={{ py: 4 }}>
+        <Box sx={{ py: 3 }}>
           {/* Header */}
           <Typography
-            variant="h3"
+            variant="h4"
             component="h1"
             gutterBottom
             align="center"
-            sx={{ mb: 4 }}
+            sx={{ mb: 3 }}
           >
             🃏 GTO Poker Trainer
           </Typography>
 
-          {/* Main content area */}
-          <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
-            <Typography variant="h5" gutterBottom>
-              Welcome to Your Poker Training App!
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-              We're building this step by step. This is your starting point!
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 3, fontStyle: 'italic' }}>
-              Next up: Building the poker table UI...
-            </Typography>
-          </Paper>
+          {/* Poker Table */}
+          <PokerTable board={board} pot={pot} players={players} />
+
+          {/* Action Buttons */}
+          <ActionButtons
+            canCheck={false} // Facing a bet, so can't check
+            canCall={true}
+            callAmount={2.5}
+            onAction={handleAction}
+          />
+
+          {/* Info text */}
+          <Typography
+            variant="caption"
+            sx={{
+              display: 'block',
+              textAlign: 'center',
+              mt: 4,
+              color: '#666',
+              fontStyle: 'italic',
+            }}
+          >
+            Demo Hand: BTN vs CO on A♥ K♦ 7♠ flop. You have A♠ Q♠ (top pair, good kicker).
+            <br />
+            This is a placeholder - full game logic coming next!
+          </Typography>
         </Box>
       </Container>
     </ThemeProvider>
